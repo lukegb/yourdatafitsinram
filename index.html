@@ -54,6 +54,8 @@ function start() {
 	recalculate();
 	inpNum.addEventListener('change', recalculate);
 	inpSize.addEventListener('change', recalculate);
+	inpNum.addEventListener('keyup', recalculate);
+	inpSize.addEventListener('keyup', recalculate);
 }
 </script>
 <style type="text/css">
