@@ -38,8 +38,8 @@ function start() {
 	}
 
 	function recalculate() {
-		var dataSize = parseInt(inpNum.value, 10) * parseInt(inpSize.value, 10);
-		if (doesMyDataFitInRam(dataSize)) {
+		var dataSize = (+inpNum.value) * (+inpSize.value);
+    	if (doesMyDataFitInRam(dataSize)) {
 			answer.innerHTML = "<a href=\"http://www.dell.com/us/business/p/poweredge-r920/pd\">YES</a>, <a href=\"http://www8.hp.com/uk/en/products/proliant-servers/product-detail.html?oid=8090149#!tab=specs\">your</a> data fits in RAM.";
 			body.classList.add('answer-yes');
 			body.classList.remove('answer-no');
