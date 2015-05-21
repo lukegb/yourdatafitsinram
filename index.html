@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+var Sizes = [
+	['bytes', 1],
+	['KiB', 1024],
+	['MiB', 1024 * 1024],
+	['GiB', 1024 * 1024 * 1024],
+	['TiB', 1024 * 1024 * 1024 * 1024],
+	['PiB', 1024 * 1024 * 1024 * 1024 * 1024],
+];
+var DefaultSize = Sizes[3];
+var TB = Sizes[4][1];
+
+var MAX_SENSIBLE = 6 * TB;
+
+function doesMyDataFitInRam(dataSize) {
+	return dataSize <= MAX_SENSIBLE;
+}
+
+function start() {
+	var inpNum    = document.getElementById('inpNum'),
+		inpSize   = document.getElementById('inpSize'),
+		outResult = document.getElementById('answer'),
+		body      = document.body;
+
+	for (var i = 0; i < Sizes.length; i++) {
+		var size = Sizes[i];
+		var isSelected = (size == DefaultSize);
+
+		var selectOpt = document.createElement('option');
+		selectOpt.selected = isSelected;
+		selectOpt.value = size[1];
+		selectOpt.innerHTML = size[0];
+
+		inpSize.appendChild(selectOpt);
+	}
+
+	function recalculate() {
+		var dataSize = parseInt(inpNum.value, 10) * parseInt(inpSize.value, 10);
+		if (doesMyDataFitInRam(dataSize)) {
+			answer.innerHTML = "<a href=\"http://www.dell.com/us/business/p/poweredge-r920/pd\">YES</a>, <a href=\"http://www8.hp.com/uk/en/products/proliant-servers/product-detail.html?oid=8090149#!tab=specs\">your</a> data fits in RAM.";
+			body.classList.add('answer-yes');
+			body.classList.remove('answer-no');
+		} else {
+			answer.innerHTML = "No, it probably doesn't fit in RAM (but it might).";
+			body.classList.remove('answer-yes');
+			body.classList.add('answer-no');
+		}
+	}
+
+	recalculate();
+	inpNum.addEventListener('change', recalculate);
+	inpSize.addEventListener('change', recalculate);
+}
+</script>
+<style type="text/css">
+body {
+	font-family: Helvetica, Arial, sans-serif;
+	text-align: center;
+
+	color: #111;
+	background-color: #eee;
+}
+#answer {
+	font-size: 120px;
+}
+#inputs, #inpNum, #inpSize {
+	font-size: 40px;
+}
+#inspiredBy {
+	position: absolute;
+	bottom: 12px;
+	left: 0;
+	width: 100%;
+}
+</style>
+</head>
+<body class="answer-maybe">
+	<h1 id="answer">Maybe</h1>
+	<div id="inputs">
+		My data is:<br>
+		<input type="number" id="inpNum" value="5">
+		<select id="inpSize">
+		</select>
+	</div>
+	<span id="inspiredBy">Inspired by <a href="https://twitter.com/garybernhardt/status/600783770925420546">https://twitter.com/garybernhardt/status/600783770925420546</a></span>
+
+	<script>
+		start();
+	</script>
+</body>
+</html>
